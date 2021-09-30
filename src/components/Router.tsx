@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useRouter } from '../lib/router'
 import { useRouteParams, AllRouteParams } from '../lib/routeParams'
 import { useDb } from '../lib/db'
@@ -19,6 +19,8 @@ import BoostHubLoginPage from './pages/BoostHubLoginPage'
 import { ObjectMap, NoteStorage, FSNoteStorage } from '../lib/db/types'
 import { useGeneralStatus } from '../lib/generalStatus'
 import NotFoundErrorPage from './pages/NotFoundErrorPage'
+import BoostHubWebview, { WebviewControl } from './atoms/BoostHubWebview'
+import { getBoostHubHomepageUrl } from '../lib/boosthub'
 
 const Router = () => {
   const routeParams = useRouteParams()
@@ -99,24 +101,8 @@ const Router = () => {
   }, [push])
 
   useRedirect()
-
-  return (
-    <>
-      {useContent(routeParams, storageMap)}
-      {generalStatus.boostHubTeams.map((team) => {
-        const active =
-          routeParams.name === 'boosthub.teams.show' &&
-          routeParams.domain === team.domain
-        return (
-          <BoostHubTeamsShowPage
-            active={active}
-            key={team.domain}
-            domain={team.domain}
-          />
-        )
-      })}
-    </>
-  )
+  console.log('Hello', routeParams)
+  return <>{useContent(routeParams, storageMap)}</>
 }
 
 export default Router
@@ -127,13 +113,14 @@ function useContent(
 ) {
   switch (routeParams.name) {
     case 'boosthub.login':
-      return <BoostHubLoginPage />
+    case 'boosthub.teams.show':
+      return <BoostHubTeamsShowPage />
+    // return <BoostHubLoginPage />
     case 'boosthub.teams.create':
       return <BoostHubTeamsCreatePage />
     case 'boosthub.account.delete':
       return <BoostHubAccountDeletePage />
-    case 'boosthub.teams.show':
-      return null
+
     case 'local': {
       const { workspaceId } = routeParams
       const storage = storageMap[workspaceId]

@@ -64,6 +64,7 @@ import Application from './Application'
 import { BaseTheme } from '../../design/lib/styled/types'
 import { BlocksProvider } from '../lib/stores/blocks'
 import { PreviewStyleProvider } from '../../lib/preview'
+import HomePage from '../pages/home'
 
 const CombinedProvider = combineProviders(
   PreviewStyleProvider,
@@ -256,6 +257,7 @@ const Router = () => {
     )
   }
 
+  console.log('Rendering router', pathname, pageInfo)
   return (
     <PageDataProvider pageProps={pageInfo.pageProps as any}>
       <V2CombinedProvider>
@@ -418,6 +420,11 @@ function getPageComponent(pathname: string): PageSpec | null {
         return {
           Component: SharedPage,
           getInitialProps: SharedPage.getInitialProps,
+        }
+      case 'desktop':
+        return {
+          Component: HomePage,
+          getInitialProps: HomePage.getInitialProps,
         }
     }
   }
