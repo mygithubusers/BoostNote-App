@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useRouter } from '../lib/router'
 import { useRouteParams, AllRouteParams } from '../lib/routeParams'
 import { useDb } from '../lib/db'
@@ -15,18 +15,13 @@ import {
 } from '../lib/events'
 import { parse as parseUrl } from 'url'
 import { openNew } from '../lib/platform'
-import BoostHubLoginPage from './pages/BoostHubLoginPage'
 import { ObjectMap, NoteStorage, FSNoteStorage } from '../lib/db/types'
-import { useGeneralStatus } from '../lib/generalStatus'
 import NotFoundErrorPage from './pages/NotFoundErrorPage'
-import BoostHubWebview, { WebviewControl } from './atoms/BoostHubWebview'
-import { getBoostHubHomepageUrl } from '../lib/boosthub'
 
 const Router = () => {
   const routeParams = useRouteParams()
   const { storageMap } = useDb()
   const { push, goBack, goForward } = useRouter()
-  const { generalStatus } = useGeneralStatus()
 
   useEffect(() => {
     const boostHubAppRouterEventHandler = (event: BoostHubAppRouterEvent) => {
@@ -59,6 +54,7 @@ const Router = () => {
       }
       const pathnameElements = pathname!.slice(1).split('/')
       const firstPathnameElement = pathnameElements[0]
+      console.log('Element is', firstPathnameElement)
       switch (firstPathnameElement) {
         case 'account':
           if (pathnameElements[1] === 'delete') {
@@ -81,8 +77,8 @@ const Router = () => {
         case 'login_complete':
         case 'policy':
         case 'pricing':
-        case 'signin':
-        case 'signup':
+        // case 'signin':
+        // case 'signup':
         case 'terms':
           openNew(url)
           break

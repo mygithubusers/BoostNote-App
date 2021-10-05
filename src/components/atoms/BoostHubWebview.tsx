@@ -148,6 +148,7 @@ const BoostHubWebview = ({
           boostHubCreateCloudSpaceEventEmitter.dispatch()
           break
         case 'router':
+          console.log('router', event.args[0])
           boostHubAppRouterEventEmitter.dispatch({ target: event.args[0] })
           break
         case 'sidebar-spaces':

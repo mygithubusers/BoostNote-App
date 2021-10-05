@@ -175,7 +175,9 @@ const CooperatePage = () => {
             iconSize={34}
             iconPath={mdiClose}
             onClick={() => {
+              console.log('todo: Go back from create space in cloud')
               sendToElectron('router', 'back')
+              // push(getBoostHubHomepageUrl())
             }}
             className='electron__goback'
           />

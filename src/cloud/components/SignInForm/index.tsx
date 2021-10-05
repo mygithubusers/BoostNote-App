@@ -102,4 +102,8 @@ const StyledSignin = styled.div`
   }
 `
 
+SignInForm.getSignUpInitialProps = async () => {
+  return { isSignup: true }
+}
+
 export default SignInForm

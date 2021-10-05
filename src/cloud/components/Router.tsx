@@ -65,6 +65,7 @@ import { BaseTheme } from '../../design/lib/styled/types'
 import { BlocksProvider } from '../lib/stores/blocks'
 import { PreviewStyleProvider } from '../../lib/preview'
 import HomePage from '../pages/home'
+import SignInForm from './SignInForm'
 
 const CombinedProvider = combineProviders(
   PreviewStyleProvider,
@@ -425,6 +426,15 @@ function getPageComponent(pathname: string): PageSpec | null {
         return {
           Component: HomePage,
           getInitialProps: HomePage.getInitialProps,
+        }
+      case 'signin':
+        return {
+          Component: SignInForm,
+        }
+      case 'signup':
+        return {
+          Component: SignInForm,
+          getInitialProps: SignInForm.getSignUpInitialProps,
         }
     }
   }

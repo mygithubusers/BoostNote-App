@@ -27,9 +27,8 @@ const GoogleLoginButton = ({
   setError,
 }: GoogleLoginButtonProps) => {
   const [sending, setSending] = useState<boolean>(false)
-  const [googleAuthIsInitialized, setGoogleAuthIsInitialized] = useState<
-    boolean
-  >(true)
+  const [googleAuthIsInitialized, setGoogleAuthIsInitialized] =
+    useState<boolean>(true)
   const { push } = useRouter()
 
   const responseGoogle = useCallback(
@@ -56,7 +55,7 @@ const GoogleLoginButton = ({
   )
 
   const errorHandler = (response: any) => {
-    console.log(response.error)
+    console.log('Google Sign Error', response, response.error)
     if (response.error === 'popup_closed_by_user') {
       return
     }
