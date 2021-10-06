@@ -11,6 +11,10 @@ import {
 import { SerializedSubscription } from '../../interfaces/db/subscription'
 import Image from '../../../design/components/atoms/Image'
 import { getTeamLinkHref } from '../../components/Link/TeamLink'
+import { lngKeys } from '../../lib/i18n/types'
+import { useI18n } from '../../lib/hooks/useI18n'
+import Button from '../../../design/components/atoms/Button'
+import { useElectron } from '../../lib/stores/electron'
 
 interface HomePageTeamSelectForm {
   user: SerializedUser
@@ -21,6 +25,8 @@ interface HomePageTeamSelectForm {
 
 const HomeForm = ({ user, teams }: HomePageTeamSelectForm) => {
   const { push } = useRouter()
+  const { translate } = useI18n()
+  const { sendToElectron } = useElectron()
 
   const navigateToTeam = useCallback(
     (selectedTeamId) => {
@@ -39,6 +45,10 @@ const HomeForm = ({ user, teams }: HomePageTeamSelectForm) => {
     },
     [push, teams]
   )
+
+  const signOutCloud = useCallback(() => {
+    sendToElectron('sign-out')
+  }, [sendToElectron])
 
   return (
     <Container>
@@ -75,6 +85,13 @@ const HomeForm = ({ user, teams }: HomePageTeamSelectForm) => {
                     <UserIcon className='intro__user__icon' user={user} />{' '}
                     <span className='intro__user__displayName'>
                       {user.displayName}
+                    </span>
+                    <span>
+                      (
+                      <Button variant={'link'} onClick={() => signOutCloud()}>
+                        {translate(lngKeys.GeneralSignout)}
+                      </Button>
+                      )
                     </span>
                   </div>
                 ),

@@ -27,8 +27,9 @@ const GoogleLoginButton = ({
   setError,
 }: GoogleLoginButtonProps) => {
   const [sending, setSending] = useState<boolean>(false)
-  const [googleAuthIsInitialized, setGoogleAuthIsInitialized] =
-    useState<boolean>(true)
+  const [googleAuthIsInitialized, setGoogleAuthIsInitialized] = useState<
+    boolean
+  >(true)
   const { push } = useRouter()
 
   const responseGoogle = useCallback(

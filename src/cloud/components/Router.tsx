@@ -427,15 +427,6 @@ function getPageComponent(pathname: string): PageSpec | null {
           Component: HomePage,
           getInitialProps: HomePage.getInitialProps,
         }
-      case 'signin':
-        return {
-          Component: SignInForm,
-        }
-      case 'signup':
-        return {
-          Component: SignInForm,
-          getInitialProps: SignInForm.getSignUpInitialProps,
-        }
     }
   }
 
