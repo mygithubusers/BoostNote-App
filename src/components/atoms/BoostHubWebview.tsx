@@ -190,6 +190,7 @@ const BoostHubWebview = ({
           break
         case 'open-external-url':
           const [url] = event.args
+          console.log('Opening external url', url)
           openExternal(url)
           break
         case 'open-context-menu':
@@ -250,6 +251,7 @@ const BoostHubWebview = ({
           })
           break
         case 'sign-out':
+          console.log('Signing out request boosthub webview')
           signOut()
           break
         default:

@@ -105,6 +105,7 @@ const Application = ({
   const { openModal } = useModal()
   const {
     globalData: { currentUser },
+    setPartialGlobalData,
   } = useGlobalData()
   const { push, query, pathname } = useRouter()
   const [popOverState, setPopOverState] = useState<PopOverState>(null)
@@ -272,8 +273,13 @@ const Application = ({
   }, [])
 
   const spaceBottomRows = useMemo(
-    () => buildSpacesBottomRows(push, translate),
-    [push, translate]
+    () =>
+      buildSpacesBottomRows(push, translate, () => {
+        console.log('Hello I am signing out')
+        setPartialGlobalData({ currentUser: undefined, teams: [] })
+        push('/desktop')
+      }),
+    [push, setPartialGlobalData, translate]
   )
 
   const {
@@ -463,7 +469,11 @@ const Application = ({
 
 export default Application
 
-function buildSpacesBottomRows(push: (url: string) => void, t: TFunction) {
+function buildSpacesBottomRows(
+  push: (url: string) => void,
+  t: TFunction,
+  onSignOut: () => void
+) {
   return usingElectron
     ? [
         {
@@ -485,6 +495,9 @@ function buildSpacesBottomRows(push: (url: string) => void, t: TFunction) {
             onClick: (event: React.MouseEvent) => {
               event.preventDefault()
               sendToHost('sign-out')
+              if (onSignOut != null) {
+                onSignOut()
+              }
             },
           },
         },
@@ -516,6 +529,7 @@ function buildSpacesBottomRows(push: (url: string) => void, t: TFunction) {
           linkProps: {
             href: '/api/oauth/signout',
             onClick: (event: React.MouseEvent) => {
+              console.log('Singing out', event)
               event.preventDefault()
               window.location.href = `${process.env.BOOST_HUB_BASE_URL}/api/oauth/signout`
             },

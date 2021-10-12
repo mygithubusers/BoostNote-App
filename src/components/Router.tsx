@@ -17,7 +17,6 @@ import { parse as parseUrl } from 'url'
 import { openNew } from '../lib/platform'
 import { ObjectMap, NoteStorage, FSNoteStorage } from '../lib/db/types'
 import NotFoundErrorPage from './pages/NotFoundErrorPage'
-import BoostHubLoginPage from './pages/BoostHubLoginPage'
 
 const Router = () => {
   const routeParams = useRouteParams()
@@ -110,7 +109,7 @@ function useContent(
 ) {
   switch (routeParams.name) {
     case 'boosthub.login':
-      return <BoostHubLoginPage />
+    // return <BoostHubLoginPage />
     case 'boosthub.teams.show':
       return <BoostHubTeamsShowPage />
     case 'boosthub.teams.create':

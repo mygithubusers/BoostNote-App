@@ -65,7 +65,6 @@ import { BaseTheme } from '../../design/lib/styled/types'
 import { BlocksProvider } from '../lib/stores/blocks'
 import { PreviewStyleProvider } from '../../lib/preview'
 import HomePage from '../pages/home'
-import SignInForm from './SignInForm'
 
 const CombinedProvider = combineProviders(
   PreviewStyleProvider,

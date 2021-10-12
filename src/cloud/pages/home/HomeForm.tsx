@@ -14,7 +14,8 @@ import { getTeamLinkHref } from '../../components/Link/TeamLink'
 import { lngKeys } from '../../lib/i18n/types'
 import { useI18n } from '../../lib/hooks/useI18n'
 import Button from '../../../design/components/atoms/Button'
-import { useElectron } from '../../lib/stores/electron'
+import { useElectron, usingElectron } from '../../lib/stores/electron'
+import { useGlobalData } from '../../lib/stores/globalData'
 
 interface HomePageTeamSelectForm {
   user: SerializedUser
@@ -27,7 +28,7 @@ const HomeForm = ({ user, teams }: HomePageTeamSelectForm) => {
   const { push } = useRouter()
   const { translate } = useI18n()
   const { sendToElectron } = useElectron()
-
+  const { setPartialGlobalData } = useGlobalData()
   const navigateToTeam = useCallback(
     (selectedTeamId) => {
       const selectedTeam = teams.find(
@@ -47,8 +48,15 @@ const HomeForm = ({ user, teams }: HomePageTeamSelectForm) => {
   )
 
   const signOutCloud = useCallback(() => {
-    sendToElectron('sign-out')
-  }, [sendToElectron])
+    if (usingElectron) {
+      sendToElectron('sign-out')
+    }
+    setPartialGlobalData({
+      currentUser: undefined,
+      teams: [],
+    })
+    push('/desktop')
+  }, [push, sendToElectron, setPartialGlobalData])
 
   return (
     <Container>
